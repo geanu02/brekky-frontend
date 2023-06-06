@@ -1,11 +1,9 @@
-import { useNavigate } from "react-router-dom"
 import { BrekkyContext } from "../contexts/BrekkyProvider"
 import { useContext, useEffect } from "react"
 
 export default function MyRecipes() {
 
     const { user, setUser } = useContext(BrekkyContext)
-    const navigate = useNavigate()
     
     useEffect(() => {
         if (user.token) { 
