@@ -1,6 +1,6 @@
 import { BrekkyContext } from "../contexts/BrekkyProvider"
 import { useContext, useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 export interface RecipeViewable {
     idMeal: string,
@@ -38,6 +38,7 @@ export default function RecipeView() {
     const { user, setUser } = useContext(BrekkyContext)
     const [ recipe, setRecipe ] = useState<RecipeViewable>() 
     const { recIdParam } = useParams()
+    const navigate = useNavigate()
 
     async function handleAdd(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault()
@@ -55,15 +56,14 @@ export default function RecipeView() {
                 "recipe_api_content": recipe,
                 "recipe_user_content": recipe,
                 "recipe_api_url": ""
-                
             })
         })
         if (res.ok) {
             const data = await res.json() 
             console.log(data)
+            navigate(`/personalize/${data.userRecipeId}`)
         }
     }
-
 
     useEffect(() => {
         (async () => {
@@ -91,7 +91,7 @@ export default function RecipeView() {
             console.log(meals)
             setRecipe(meals)
         })()
-    },[])
+    }, [])
 
     useEffect(() => {
         if (user.token) { 
@@ -114,7 +114,7 @@ export default function RecipeView() {
             
             }
         }
-    },[user])
+    }, [user])
 
     return (
         <>
@@ -133,16 +133,16 @@ export default function RecipeView() {
                 <div className="w-1/2">
                     <div className="bg-gray-700 m-8 p-6 rounded-2xl text-center">
                         <h4 className="leading-10 text-lg text-gray-300 font-semibold pb-2">Ingredient List</h4>
-                        <ul role="list" className="space-y-2 text-slate-400">
+                        <ul role="list" className="space-y-2">
                             {
                                 recipe?.ingredients.map((item: Ingredientable) => 
-                                <li className="leading-7 text-gray-300 font-light">{item.ingMeasure} {item.ingName}</li>)
+                                <li className="leading-7 text-gray-400 font-light">{item.ingMeasure} {item.ingName}</li>)
                             }
                         </ul>
                     </div>
                     <div className="m-8 p-6 bg-gray-500 rounded-2xl">
-                        <h4 className="leading-10 text-lg text-gray-900 text-center font-semibold pb-2">Instructions</h4>
-                        <p className="text-gray-900 font-light">{recipe?.strInstructions}</p>
+                        <h4 className="leading-10 text-lg text-gray-900 text-center font-semibold pb-2 drop-shadow">Instructions</h4>
+                        <p className="text-gray-800 font-light drop-shadow">{recipe?.strInstructions}</p>
                     </div>
                 </div>
                 <div className="w-1/2 p-8">

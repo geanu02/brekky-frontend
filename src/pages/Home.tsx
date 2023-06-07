@@ -29,7 +29,7 @@ export default function Home() {
     return (
         <>
             <div className="ml-16 mt-12 p-4 bg-gray-600">
-                <div className="flex flex-row flex-wrap justify-between">
+                <div className="flex flex-row flex-wrap justify-between items-start">
                     { seafoodList.map(item => {
                         return <RecipeCard 
                                 key={item.idMeal}
@@ -44,6 +44,3 @@ export default function Home() {
         </>
     )
 }
-
-
-// 0: {strMeal: 'Baked salmon with fennel & tomatoes', strMealThumb: 'https://www.themealdb.com/images/media/meals/1548772327.jpg', idMeal: '52959'}
