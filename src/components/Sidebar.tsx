@@ -36,7 +36,7 @@ export default function Sidebar() {
     },[user])
 
     return (
-        <div className="z-10 fixed z-100 top-12 left-0 h-screen w-16 m-0
+        <div className="z-10 fixed top-12 left-0 h-screen w-16 m-0
                         flex flex-col bg-gray-900 text-white shadow-lg">
             <NavLink to='/'>
                 <SideBarIcon icon={ <RiHomeHeartFill size="32" /> } tooltip={`Home`} />

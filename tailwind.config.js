@@ -10,8 +10,8 @@ export default {
   ],
   theme: {
     fontFamily: {
-      'display': ['Oswald'],
-      'body': ['"Open Sans"'],
+      'body': ['Roboto', 'sans-serif'],
+      'display': ['Roboto', 'sans-serif'],
     },
     extend: {
       colors: {
