@@ -41,7 +41,6 @@ export default function Personalize() {
     const { register, handleSubmit } = useForm()
 
     async function handleSaveRecipe(data: any): Promise<SubmitHandler<RecipeContent>> {
-
         const ls_ingName: string[] = []
         const ls_ingMeas: string[] = []
         for (let k in data) {

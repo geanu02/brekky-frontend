@@ -17,8 +17,11 @@ export default function UserRecipeView() {
 
     function handleEdit(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault()
-        console.log()
-        //navigate(`/editRecipe/${recIdParam}`)
+        navigate(`/editRecipe/${recIdParam}`)
+    }
+    function handleDelete(e: React.MouseEvent<HTMLButtonElement>) {
+        e.preventDefault()
+        navigate(`/deleteRecipe/${recIdParam}`)
     }
 
     useEffect(() => {
@@ -98,12 +101,12 @@ export default function UserRecipeView() {
                                 buttonDisplayName="Edit Recipe"
                             />
                             <CuteButton 
-                                
+                                eventHandler={handleDelete}
                                 buttonDisplayName="Delete Recipe"
                             />
 
                         </div>
-                    }
+                        }
                 </div>
             </div>
 
