@@ -2,13 +2,14 @@ import { useNavigate, useParams } from "react-router-dom"
 import { BrekkyContext } from "../contexts/BrekkyProvider"
 import { useContext, useEffect, useState } from "react"
 import { useForm, SubmitHandler } from "react-hook-form"
+import { arrToObj } from "./RecipeView"
 import CuteButton from "../components/CuteButton"
 
 const base_api_url = import.meta.env.VITE_APP_BASE_API
 
 interface Personalizable {
     userRecipeId: number,
-    userRecipeName
+    userRecipeTitle: string,
     userRecipeContent: RecipeContent
 }
 
@@ -19,6 +20,7 @@ interface RecipeContent {
     strInstructions: string,
     idMeal: string,
     dateModified?: Date,
+    newRecipeTitle?: string
 }
 
 interface Ingredients {
@@ -35,7 +37,34 @@ export default function Personalize() {
 
     const { register, handleSubmit } = useForm()
 
-    function handleSaveRecipe(data: any): SubmitHandler<RecipeContent> {
+    async function handleSaveRecipe(data: any): Promise<SubmitHandler<RecipeContent>> {
+
+        const ls_ingName: string[] = []
+        const ls_ingMeas: string[] = []
+        let k: keyof Ingredients
+        for (k in data) {
+            if (k.includes('ingreName') && data[k] !== null) {
+                ls_ingName.push(data[k] as string)
+                delete data[k]
+            } else if (k.includes('ingreMeas') && data[k] !== null) {
+                ls_ingMeas.push(data[k] as string)
+                delete data[k]
+            }
+        }
+        data.ingredients = arrToObj(ls_ingName as [], ls_ingMeas as [])
+
+        const res = await fetch(`${base_api_url}/recipe/${userRecipe?.userRecipeId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-access-token': `Bearer ${user.token || localStorage.getItem('token')?.replaceAll('"', "")}`
+            },
+            body: JSON.stringify(data)
+        })
+        if (res.ok) {
+            const dataRes = await res.json() 
+            console.log(dataRes)
+        }
         console.log(data)
         return data
     }
@@ -54,10 +83,12 @@ export default function Personalize() {
                 const userRecipeData: RecipeContent = await data.recipe_user_content
                 console.log({
                     userRecipeId: data.user_recipe_id,
+                    userRecipeTitle: data.recipe_title,
                     userRecipeContent: userRecipeData
                 })
                 setUserRecipe({
                     userRecipeId: data.user_recipe_id,
+                    userRecipeTitle: data.recipe_title,
                     userRecipeContent: userRecipeData
                 })
             }
@@ -92,7 +123,7 @@ export default function Personalize() {
                 <h2 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
                     Personalize<br />
                     <span className="text-transparent bg-clip-text bg-gradient-to-r to-sky-200 from-sky-400">
-                        {userRecipe?.strMeal}
+                        {userRecipe?.userRecipeTitle}
                     </span>
                 </h2>
                 <form onSubmit={handleSubmit(handleSaveRecipe)}>
@@ -110,7 +141,7 @@ export default function Personalize() {
                                 }
                             })}
                             type="text"
-                            defaultValue={`${userRecipe?.userRecipeContent.strMeal}`}
+                            defaultValue={userRecipe?.userRecipeContent.newRecipeTitle || userRecipe?.userRecipeTitle}
                         />
                     </div>
                     <div className="my-6">

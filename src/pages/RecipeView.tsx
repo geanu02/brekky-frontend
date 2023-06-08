@@ -12,6 +12,7 @@ export interface RecipeViewable {
     strMealThumb: string,
     strTags: string,
     ingredients: object[]
+    newRecipeTitle?: string
 }
 
 interface Ingredientable {
@@ -22,13 +23,12 @@ interface Ingredientable {
 const base_meals_api_url = import.meta.env.VITE_BASE_MEAL_API_URL
 const base_api_url = import.meta.env.VITE_APP_BASE_API
 
-const arrToObj = (keyArr: [], valArr: []): Ingredientable[] => {
+export const arrToObj = (keyArr: [], valArr: []): Ingredientable[] => {
     const returnArr: Ingredientable[] = []
     keyArr.forEach((item, index) => {
         let obj: Ingredientable = {}
         obj.ingName = item
         obj.ingMeasure = valArr[index]
-
         returnArr.push(obj)
     })
     return returnArr
@@ -38,7 +38,6 @@ export default function RecipeView() {
 
     const { user, setUser } = useContext(BrekkyContext)
     const [ recipe, setRecipe ] = useState<RecipeViewable>() 
-    const [ recipeNew, setRecipeNew ] = useState<RecipeViewable>() 
     const { recIdParam } = useParams()
     const navigate = useNavigate()
 
@@ -55,7 +54,7 @@ export default function RecipeView() {
                 "recipe_id": recipe?.idMeal,
                 "recipe_title": recipe?.strMeal,
                 "recipe_thumb": recipe?.strMealThumb,
-                "recipe_api_content": recipeNew,
+                "recipe_api_content": recipe,
                 "recipe_user_content": recipe,
                 "recipe_api_url": ""
             })
@@ -90,15 +89,11 @@ export default function RecipeView() {
             const listIng = ls_ingName.filter((str) => str !== '')
             const listMea = ls_ingMeas.filter((str) => str !== '')
             meals.ingredients = arrToObj(listIng as [], listMea as [])
+            console.log(meals)
+            setRecipe(meals)
             if (user.token) {
-                meals.strMeal = `${user.firstname}'s ${meals.strMeal}`
-                setRecipeNew(meals)
-                setRecipe(meals)
-            } else {
-                console.log(meals)
-                setRecipe(meals)
+                meals.newRecipeTitle = `${user.firstname}'s ${meals.strMeal}`
             }
-            
         })()
     }, [])
 
