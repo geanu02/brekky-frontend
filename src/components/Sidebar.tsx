@@ -1,5 +1,5 @@
 import { BrekkyContext } from "../contexts/BrekkyProvider";
-import { ReactNode, useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { 
     RiHomeHeartFill, 
     RiFileSearchFill, 
@@ -8,6 +8,7 @@ import {
     RiLoginBoxFill, 
     RiLogoutBoxRFill } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
+import SideBarIcon from "./SideBarIcon";
 
 export default function Sidebar() {
 
@@ -66,20 +67,6 @@ export default function Sidebar() {
                     </>
                 )
             }
-        </div>
-    )
-}
-
-interface Iconable {
-    icon: ReactNode,
-    tooltip: string
-}
-
-const SideBarIcon = ({ icon, tooltip = "tooltip" }: Iconable) => {
-    return (
-        <div className="sidebar-icon group">
-            {icon}
-            <span className="sidebar-tooltip group-hover:scale-100">{tooltip}</span>
         </div>
     )
 }

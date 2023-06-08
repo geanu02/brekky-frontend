@@ -3,6 +3,7 @@ import { BrekkyContext } from "../contexts/BrekkyProvider"
 import { useContext, useEffect, useState } from "react"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { arrToObj } from "./RecipeView"
+import { RiDeleteBin5Fill } from "react-icons/ri"
 import CuteButton from "../components/CuteButton"
 
 const base_api_url = import.meta.env.VITE_APP_BASE_API
@@ -20,10 +21,12 @@ interface RecipeContent {
     strInstructions: string,
     idMeal: string,
     dateModified?: Date,
-    newRecipeTitle?: string
+    newRecipeTitle?: string,
+    strArea: string,
+    strCategory: string
 }
 
-interface Ingredients {
+export interface Ingredients {
     ingMeasure: string,
     ingName: string
 }
@@ -52,6 +55,11 @@ export default function Personalize() {
         }
         data.ingredients = arrToObj(ls_ingName as [], ls_ingMeas as [])
         data.dateModified = Date.now()
+        data._recipe_id = parseInt(userRecipe?.userRecipeContent.idMeal!)
+        data.user_recipe_id = userRecipe?.userRecipeId
+        data.recipe_thumb = userRecipe?.userRecipeContent.strMealThumb
+        data.recipe_area = userRecipe?.userRecipeContent.strArea
+        data.recipe_category = userRecipe?.userRecipeContent.strCategory
         const res = await fetch(`${base_api_url}/recipe/${userRecipe?.userRecipeId}`, {
             method: 'PUT',
             headers: {
@@ -63,6 +71,7 @@ export default function Personalize() {
         if (res.ok) {
             const dataRes = await res.json() 
             console.log(dataRes)
+            navigate('/myrecipes')
         }
         console.log(data)
         return data
@@ -119,19 +128,24 @@ export default function Personalize() {
     return (
         <>
             <div className="ml-16 mt-12 p-4 bg-gray-600">
+                {/* Personalize Title */}
                 <h2 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
                     Personalize<br />
                     <span className="text-transparent bg-clip-text bg-gradient-to-r to-sky-200 from-sky-400">
                         {userRecipe?.userRecipeTitle}
                     </span>
                 </h2>
+
+                {/* Form Start */}
                 <form onSubmit={handleSubmit(handleSaveRecipe)}>
                     <div className="my-6">
+
+                        {/* Recipe Title Input */}
                         <label className="block mb-4 text-md font-medium text-gray-900 dark:text-white">
                             Your Recipe Title
                         </label>
                         <input
-                            className="w-1/2 min-w-[400px] py-1 px-2 rounded-md text-sm text-gray-900 bg-gray-50 border border-gray-300 focus:ring-sky-500 focus:border-sky-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-sky-500 dark:focus:border-sky-500"
+                            className="w-1/2 min-w-[400px] max-w-2xl py-1 px-2 rounded-md text-sm text-gray-900 bg-gray-50 border border-gray-300 focus:ring-sky-500 focus:border-sky-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-sky-500 dark:focus:border-sky-500"
                             {...register('recipeName', { 
                                 required: "Recipe Title required.",
                                 minLength: {
@@ -144,7 +158,8 @@ export default function Personalize() {
                         />
                     </div>
                     <div className="my-6">
-                        <label className="block mb-4 text-md font-medium text-gray-900 dark:text-white">Cooking Instructions</label>
+                        {/* Recipe Instructions Input */}
+                        <label className="block mb-4 text-md font-medium text-gray-900 dark:text-white">Your Cooking Instructions</label>
                         <textarea
                             rows={6}
                             className="block w-1/2 min-w-[400px] max-w-2xl p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-sky-500 focus:border-sky-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-sky-500 dark:focus:border-sky-500"
@@ -159,9 +174,11 @@ export default function Personalize() {
                             />
                     </div>
                     <div className="my-6">
-                    <label className="block mb-4 text-md font-medium text-gray-900 dark:text-white">Ingredients List</label>
+                    <label className="block mb-4 text-md font-medium text-gray-900 dark:text-white">Your Ingredients List</label>
+                    {/* Mapping Recipe Ingredients Input */}
                     {userRecipe?.userRecipeContent.ingredients.map((item, index) => 
-                        <div key={`ingreItem${index}`}>
+                        <div key={`ingreItem${index}`}
+                                className="flex flex-row">
                             <input
                                 {...register(`ingreName${index}`, { 
                                     required: "Ingredient Name required. Delete row if blank.",
@@ -186,7 +203,7 @@ export default function Personalize() {
                                 className="mr-3 mb-3 py-1 px-2 rounded-md text-sm text-gray-900 bg-gray-50 border border-gray-300 focus:ring-sky-500 focus:border-sky-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-sky-500 dark:focus:border-sky-500"
                                 defaultValue={item.ingMeasure}
                             />
-                            <span>Delete Icon Here</span>
+                            <RiDeleteBin5Fill size="20" className="m-1 text-sky-600 hover:text-red-900 transition-all duration-200 ease-linear cursor-pointer" />
                         </div>
                     )}
                     </div>

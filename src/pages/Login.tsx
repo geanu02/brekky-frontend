@@ -1,3 +1,4 @@
+import CuteButton from "../components/CuteButton"
 import { BrekkyContext } from "../contexts/BrekkyProvider"
 import { useRef, useContext, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
@@ -63,7 +64,13 @@ export default function Login() {
     return (
         <>
             <div className="ml-16 mt-12 p-4 bg-gray-600">
-                <h2 className="LoginHeader">Login Page</h2>
+                <h2 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
+                        Welcome back to&nbsp;
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r to-sky-200 from-sky-400">
+                        Brekky
+                        </span>
+                        !
+                </h2>
                 <form onSubmit={handleLoginForm}>
                     <label>Username:<br />
                         <input type="text" ref={usernameField} />
@@ -71,7 +78,7 @@ export default function Login() {
                     <label>Password:<br />
                         <input type="password" ref={passwordField} />
                     </label><br /><br />
-                    <button>Sign In</button>
+                    <CuteButton buttonDisplayName="Login" />
                 </form>
             </div>
         </>

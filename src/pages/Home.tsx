@@ -4,7 +4,8 @@ import { useEffect, useState } from "react"
 export interface RecipeCardable {
     idMeal: string,
     strMeal: string,
-    strMealThumb: string
+    strMealThumb: string,
+    linkTo: string
 }
 
 const base_meals_api_url = import.meta.env.VITE_BASE_MEAL_API_URL
@@ -32,13 +33,13 @@ export default function Home() {
                 <div className="flex flex-row flex-wrap justify-between items-start">
                     { seafoodList.map((item, index) => {
                         return <RecipeCard 
-                                key={`recipeCard${index}`}
-                                idMeal={item.idMeal}
-                                strMeal={item.strMeal}
-                                strMealThumb={item.strMealThumb}
+                                    key={`recipeCard${index}`}
+                                    idMeal={item.idMeal}
+                                    strMeal={item.strMeal}
+                                    strMealThumb={item.strMealThumb}
+                                    linkTo={`recipe`}
                                 />
                     })}
-
                 </div>
             </div>
         </>

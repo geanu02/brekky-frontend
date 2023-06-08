@@ -15,7 +15,7 @@ export interface RecipeViewable {
     newRecipeTitle?: string
 }
 
-interface Ingredientable {
+export interface Ingredientable {
     ingName?: string,
     ingMeasure?: string
 }
@@ -55,8 +55,7 @@ export default function RecipeView() {
                 "recipe_title": recipe?.strMeal,
                 "recipe_thumb": recipe?.strMealThumb,
                 "recipe_api_content": recipe,
-                "recipe_user_content": recipe,
-                "recipe_api_url": ""
+                "recipe_user_content": recipe
             })
         })
         if (res.ok) {
@@ -122,10 +121,14 @@ export default function RecipeView() {
     return (
         <>
             
-            <div className="ml-16 mt-20 p-4 bg-gray-900">
-                <h2 className="text-6xl text-center text-gray-400
-                                font-display font-black">
-                {recipe?.strMeal}
+            <div className="ml-16 mt-20 pb-1 bg-gray-900">
+                <h2 
+                    className="text-center text-3xl p-5 font-extrabold text-gray-900 
+                                dark:text-white md:text-5xl lg:text-6xl">
+                    <span className="text-transparent bg-clip-text 
+                                    bg-gradient-to-r to-sky-200 from-sky-400">
+                        {recipe?.strMeal}
+                    </span>
                 </h2>
             </div>
             

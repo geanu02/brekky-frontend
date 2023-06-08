@@ -9,6 +9,8 @@ import Login from "./pages/Login"
 import Register from "./pages/Register"
 import RecipeView from "./pages/RecipeView"
 import Personalize from "./pages/Personalize"
+import UserRecipeView from "./pages/UserRecipeView"
+import UserRecipeEdit from "./pages/UserRecipeEdit"
 
 function App() {
 
@@ -23,6 +25,8 @@ function App() {
           <Route path='/recipe/:recIdParam' element={ <RecipeView /> } />
           <Route path='/personalize/:useRecIdParam' element={ <Personalize /> } />
           <Route path='/myrecipes' element={ <MyRecipes /> } />
+          <Route path='/userRecipe/:recIdParam' element={ <UserRecipeView /> } />
+          <Route path='/editRecipe/:useRecIdParam' element={ <UserRecipeEdit /> } />
           <Route path='/register' element={ <Register /> } />
           <Route path='/login' element={ <Login /> } />
           <Route path='/logout' element={ <Logout /> } />
