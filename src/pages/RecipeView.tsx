@@ -1,3 +1,4 @@
+import CuteButton from "../components/CuteButton"
 import { BrekkyContext } from "../contexts/BrekkyProvider"
 import { useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
@@ -37,6 +38,7 @@ export default function RecipeView() {
 
     const { user, setUser } = useContext(BrekkyContext)
     const [ recipe, setRecipe ] = useState<RecipeViewable>() 
+    const [ recipeNew, setRecipeNew ] = useState<RecipeViewable>() 
     const { recIdParam } = useParams()
     const navigate = useNavigate()
 
@@ -53,7 +55,7 @@ export default function RecipeView() {
                 "recipe_id": recipe?.idMeal,
                 "recipe_title": recipe?.strMeal,
                 "recipe_thumb": recipe?.strMealThumb,
-                "recipe_api_content": recipe,
+                "recipe_api_content": recipeNew,
                 "recipe_user_content": recipe,
                 "recipe_api_url": ""
             })
@@ -88,8 +90,15 @@ export default function RecipeView() {
             const listIng = ls_ingName.filter((str) => str !== '')
             const listMea = ls_ingMeas.filter((str) => str !== '')
             meals.ingredients = arrToObj(listIng as [], listMea as [])
-            console.log(meals)
-            setRecipe(meals)
+            if (user.token) {
+                meals.strMeal = `${user.firstname}'s ${meals.strMeal}`
+                setRecipeNew(meals)
+                setRecipe(meals)
+            } else {
+                console.log(meals)
+                setRecipe(meals)
+            }
+            
         })()
     }, [])
 
@@ -111,7 +120,6 @@ export default function RecipeView() {
                     firstname: storedFirstName.replaceAll('"', ""), 
                     username: storedUserName.replaceAll('"', "")
                 })
-            
             }
         }
     }, [user])
@@ -135,8 +143,12 @@ export default function RecipeView() {
                         <h4 className="leading-10 text-lg text-gray-300 font-semibold pb-2">Ingredient List</h4>
                         <ul role="list" className="space-y-2">
                             {
-                                recipe?.ingredients.map((item: Ingredientable) => 
-                                <li className="leading-7 text-gray-400 font-light">{item.ingMeasure} {item.ingName}</li>)
+                                recipe?.ingredients.map((item: Ingredientable, index) => 
+                                <li key={`ingreItem${index}`}
+                                    className="leading-7 text-gray-400 font-light">
+                                    {item.ingMeasure} {item.ingName}
+                                </li>
+                                )
                             }
                         </ul>
                     </div>
@@ -150,16 +162,10 @@ export default function RecipeView() {
                         className="object-cover rounded-2xl" />
                     { user.token && 
                         <div className="flex flex-row justify-center my-8 ">
-                            <button onClick={handleAdd} 
-                                    className="bg-gray-800 text-lg font-medium text-sky-600 border-2
-                                                border-gray-800 px-12 py-2 rounded-full
-                                                hover:text-white group relative flex items-center
-                                                overflow-hidden">
-                                <span className="absolute left-0 w-full h-0 transition-all
-                                                bg-sky-600 opacity-100 group-hover:h-full
-                                                group-hover:top-0 duration-400 ease"></span>
-                                <span className="relative">Personalize Recipe</span>
-                            </button>
+                            <CuteButton 
+                                eventHandler={handleAdd}
+                                buttonDisplayName="Personalize Recipe"
+                            />
                         </div>
                     }
                 </div>

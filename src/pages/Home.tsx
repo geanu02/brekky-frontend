@@ -30,9 +30,9 @@ export default function Home() {
         <>
             <div className="ml-16 mt-12 p-4 bg-gray-600">
                 <div className="flex flex-row flex-wrap justify-between items-start">
-                    { seafoodList.map(item => {
+                    { seafoodList.map((item, index) => {
                         return <RecipeCard 
-                                key={item.idMeal}
+                                key={`recipeCard${index}`}
                                 idMeal={item.idMeal}
                                 strMeal={item.strMeal}
                                 strMealThumb={item.strMealThumb}
