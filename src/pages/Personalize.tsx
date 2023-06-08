@@ -41,8 +41,7 @@ export default function Personalize() {
 
         const ls_ingName: string[] = []
         const ls_ingMeas: string[] = []
-        let k: keyof Ingredients
-        for (k in data) {
+        for (let k in data) {
             if (k.includes('ingreName') && data[k] !== null) {
                 ls_ingName.push(data[k] as string)
                 delete data[k]
@@ -52,7 +51,7 @@ export default function Personalize() {
             }
         }
         data.ingredients = arrToObj(ls_ingName as [], ls_ingMeas as [])
-
+        data.dateModified = Date.now()
         const res = await fetch(`${base_api_url}/recipe/${userRecipe?.userRecipeId}`, {
             method: 'PUT',
             headers: {
