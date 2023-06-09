@@ -3,7 +3,6 @@ import { useContext, useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { UserRec } from "./MyRecipes"
 import { useForm, SubmitHandler } from "react-hook-form"
-import { RiDeleteBin5Fill } from "react-icons/ri"
 import CuteButton from "../components/CuteButton"
 import { arrToObj } from "./RecipeView"
 
@@ -167,7 +166,6 @@ export default function UserRecipeEdit() {
                                 className="mr-3 mb-3 py-1 px-2 rounded-md text-sm text-gray-900 bg-gray-50 border border-gray-300 focus:ring-sky-500 focus:border-sky-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-sky-500 dark:focus:border-sky-500"
                                 defaultValue={item.ingMeasure}
                             />
-                            <RiDeleteBin5Fill size="20" className="m-1 text-sky-600 hover:text-red-900 transition-all duration-200 ease-linear cursor-pointer" />
                         </div>
                     )}
                     </div>
