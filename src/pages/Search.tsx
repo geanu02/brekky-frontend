@@ -4,7 +4,6 @@ import { RiSearchLine } from "react-icons/ri"
 import { useForm, SubmitHandler } from "react-hook-form"
 import RecipeCard from "../components/RecipeCard"
 import { RecipeContent } from "./Personalize"
-import Spinner from "../components/Spinner"
 
 const base_meals_api_url = import.meta.env.VITE_BASE_MEAL_API_URL
 
