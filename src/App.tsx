@@ -12,6 +12,7 @@ import Personalize from "./pages/Personalize"
 import UserRecipeView from "./pages/UserRecipeView"
 import UserRecipeEdit from "./pages/UserRecipeEdit"
 import DeleteRecipe from "./components/DeleteRecipe"
+import UserSettings from "./pages/UserSettings"
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
           <Route path='/userRecipe/:recIdParam' element={ <UserRecipeView /> } />
           <Route path='/editRecipe/:useRecIdParam' element={ <UserRecipeEdit /> } />
           <Route path='/deleteRecipe/:deleteId' element={ <DeleteRecipe /> } />
+          <Route path='/account' element={ <UserSettings /> } />
           <Route path='/register' element={ <Register /> } />
           <Route path='/login' element={ <Login /> } />
           <Route path='/logout' element={ <Logout /> } />

@@ -14,7 +14,7 @@ interface Personalizable {
     userRecipeContent: RecipeContent
 }
 
-interface RecipeContent {
+export interface RecipeContent {
     ingredients: Ingredients[],
     strMeal: string,
     strMealThumb: string,

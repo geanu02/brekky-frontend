@@ -5,6 +5,7 @@ import {
     RiFileSearchFill, 
     RiFileUserFill, 
     RiContactsFill,
+    RiSettings5Fill,
     RiLoginBoxFill, 
     RiLogoutBoxRFill } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
@@ -51,6 +52,9 @@ export default function Sidebar() {
                     <>
                         <NavLink to='/myrecipes'>
                             <SideBarIcon icon={ <RiFileUserFill size="32" /> } tooltip={`${user.firstname}'s Recipes`}/>
+                        </NavLink>
+                        <NavLink to='/account'>
+                            <SideBarIcon icon={ <RiSettings5Fill size="32" /> } tooltip={`Account Settings`}/>
                         </NavLink>
                         <NavLink to='/logout'>
                             <SideBarIcon icon={ <RiLogoutBoxRFill size="32" /> } tooltip={`Logout`}/>
