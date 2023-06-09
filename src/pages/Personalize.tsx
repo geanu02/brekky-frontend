@@ -191,7 +191,6 @@ export default function Personalize() {
                     {/* Mapping Recipe Ingredients Input */}
                     {userRecipe?.userRecipeContent.ingredients.map((item, index) => 
                         <div key={`ingreItem${index}`} className="flex flex-row">
-                            <input {...register(`check${index}`)} type="checkbox" defaultValue="true" />
                             <input
                                 {...register(`ingreName${index}`, { 
                                     required: "Ingredient Name required. Delete row if blank.",
