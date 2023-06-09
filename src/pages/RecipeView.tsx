@@ -132,9 +132,9 @@ export default function RecipeView() {
                 </h2>
             </div>
             
-            <div className="max-w-6xl font-display mx-auto p-4 bg-gray-600 flex flex-row">
-                <div className="w-1/2">
-                    <div className="bg-gray-700 m-8 p-6 rounded-2xl text-center">
+            <div className="max-w-6xl font-display mx-auto p-4 bg-gray-600 flex flex-row max-[450px]:no-flex">
+                <div className="w-1/2 max-[450px]:w-auto">
+                        <div className="bg-gray-700 m-8 p-6 rounded-2xl text-center">
                         <h4 className="leading-10 text-lg text-gray-300 font-semibold pb-2">Ingredient List</h4>
                         <ul role="list" className="space-y-2">
                             {
@@ -147,14 +147,15 @@ export default function RecipeView() {
                             }
                         </ul>
                     </div>
-                    <div className="m-8 p-6 bg-gray-500 rounded-2xl">
+                    <div className="m-8 p-6 bg-gray-500 rounded-2xl max-[450px]:w-auto">
                         <h4 className="leading-10 text-lg text-gray-900 text-center font-semibold pb-2 drop-shadow">Instructions</h4>
                         <p className="text-gray-800 font-light drop-shadow">{recipe?.strInstructions}</p>
                     </div>
+                    
                 </div>
                 <div className="w-1/2 p-8">
                     <img src={recipe?.strMealThumb} alt={recipe?.strMealThumb}
-                        className="object-cover rounded-2xl" />
+                        className="object-cover rounded-2xl " />
                     { user.token && 
                         <div className="flex flex-row justify-center my-8 ">
                             <CuteButton 
