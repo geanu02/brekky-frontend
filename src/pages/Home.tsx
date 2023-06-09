@@ -37,7 +37,7 @@ export default function Home() {
                     Recipes
                     </span>
                 </h2>
-                <div className="flex flex-row flex-wrap justify-between items-start">
+                <div className="flex flex-row flex-wrap justify-between items-start ">
                 { 
                     arrRecipes.length > 1 ? (
                     arrRecipes.map((item, index) => 
