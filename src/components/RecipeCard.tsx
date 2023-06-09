@@ -7,8 +7,7 @@ export default function RecipeCard(props: RecipeCardable) {
       <Link to={`/${props.linkTo}/${props.idMeal}`} >
         <div key={props.idMeal}
             className="w-48 bg-gray-800 rounded-md p-4
-            cursor-pointer drop-shadow-lg hover:drop-shadow-xl
-            sm:w-auto"
+            cursor-pointer drop-shadow-lg hover:drop-shadow-xl"
             >
             <div className="aspect-video relative">
                 <img src={props.strMealThumb} alt={props.strMeal} 
