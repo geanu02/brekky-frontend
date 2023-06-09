@@ -3,7 +3,6 @@ import { BrekkyContext } from "../contexts/BrekkyProvider"
 import { useContext, useEffect, useState } from "react"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { arrToObj } from "./RecipeView"
-import { RiDeleteBin5Fill } from "react-icons/ri"
 import CuteButton from "../components/CuteButton"
 
 const base_api_url = import.meta.env.VITE_APP_BASE_API
@@ -191,8 +190,8 @@ export default function Personalize() {
                     <label className="block mb-4 text-md font-medium text-gray-900 dark:text-white">Your Ingredients List</label>
                     {/* Mapping Recipe Ingredients Input */}
                     {userRecipe?.userRecipeContent.ingredients.map((item, index) => 
-                        <div key={`ingreItem${index}`}
-                                className="flex flex-row">
+                        <div key={`ingreItem${index}`} className="flex flex-row">
+                            <input {...register(`check${index}`)} type="checkbox" defaultValue="true" />
                             <input
                                 {...register(`ingreName${index}`, { 
                                     required: "Ingredient Name required. Delete row if blank.",
@@ -215,9 +214,7 @@ export default function Personalize() {
                                 })}
                                 type="text"
                                 className="mr-3 mb-3 py-1 px-2 rounded-md text-sm text-gray-900 bg-gray-50 border border-gray-300 focus:ring-sky-500 focus:border-sky-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-sky-500 dark:focus:border-sky-500"
-                                defaultValue={item.ingMeasure}
-                            />
-                            <RiDeleteBin5Fill size="20" className="m-1 text-sky-600 hover:text-red-900 transition-all duration-200 ease-linear cursor-pointer" />
+                                defaultValue={item.ingMeasure} />
                         </div>
                     )}
                     </div>
