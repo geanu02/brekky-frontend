@@ -2,6 +2,7 @@ import { BrekkyContext } from "../contexts/BrekkyProvider"
 import { useContext, useEffect, useState } from "react"
 import { Ingredients } from "./Personalize"
 import RecipeCard from "../components/RecipeCard"
+import Spinner from "../components/Spinner"
 
 const base_api_url = import.meta.env.VITE_APP_BASE_API
 
@@ -80,6 +81,7 @@ export default function MyRecipes() {
                 </h2>
                 <div className="flex flex-row flex-wrap items-start">
                 {
+                    userRecipes.length > 0 ? (
                     userRecipes.map((item, index) => 
                         <RecipeCard 
                             key={`userRecipeCard${index}`}
@@ -88,6 +90,8 @@ export default function MyRecipes() {
                             strMealThumb={item.recipe_thumb}
                             linkTo={`userRecipe`}
                         />
+                    )) : (
+                        <Spinner />
                     )
                 }
                 </div>

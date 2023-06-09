@@ -70,7 +70,7 @@ export default function UserRecipeView() {
                     </span>
                 </h2>
             </div>
-            <div className="min-w-fit font-display ml-16 p-4 bg-gray-600 flex flex-row">
+            <div className="max-w-6xl font-display mx-auto p-4 bg-gray-600 flex flex-row">
                 <div className="w-1/2">
                     <div className="bg-gray-700 m-8 p-6 rounded-2xl text-center">
                         <h4 className="leading-10 text-lg text-gray-300 font-semibold pb-2">Ingredient List</h4>
@@ -92,19 +92,22 @@ export default function UserRecipeView() {
                 </div>
                 <div className="w-1/2 p-8">
                     <img src={recipe?.recipe_thumb} alt={recipe?.recipeName}
-                        className="object-cover rounded-2xl" />
+                        className="object-cover rounded-2xl justify-center" />
                         
                         { user.token && 
-                        <div className="flex flex-row justify-center my-8 ">
-                            <CuteButton 
-                                eventHandler={handleEdit}
-                                buttonDisplayName="Edit Recipe"
-                            />
-                            <CuteButton 
-                                eventHandler={handleDelete}
-                                buttonDisplayName="Delete Recipe"
-                            />
-
+                        <div className="flex flex-row justify-center my-8">
+                            <div className="p-2">
+                                <CuteButton 
+                                    eventHandler={handleEdit}
+                                    buttonDisplayName="Edit Recipe"
+                                />
+                            </div>
+                            <div className="p-2">
+                                <CuteButton 
+                                    eventHandler={handleDelete}
+                                    buttonDisplayName="Delete Recipe"
+                                />
+                            </div>
                         </div>
                         }
                 </div>

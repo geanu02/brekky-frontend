@@ -132,10 +132,7 @@ export default function RecipeView() {
                 </h2>
             </div>
             
-            <div className="min-w-fit font-display
-                    ml-16 p-4 bg-gray-600
-                    flex flex-row">
-                
+            <div className="max-w-6xl font-display mx-auto p-4 bg-gray-600 flex flex-row">
                 <div className="w-1/2">
                     <div className="bg-gray-700 m-8 p-6 rounded-2xl text-center">
                         <h4 className="leading-10 text-lg text-gray-300 font-semibold pb-2">Ingredient List</h4>

@@ -51,8 +51,15 @@ export default function DeleteRecipe() {
 
     return (
         <div className="grid place-items-center h-screen">
-            <CuteButton eventHandler={handleDeleteRecipe} buttonDisplayName="Delete"/>
-            <CuteButton eventHandler={goBack} buttonDisplayName="Cancel"/>
+            <div className="rounded-md bg-gray-900 p-8">
+                <p className="p-4 text-sky-600">Are you sure you want to delete this recipe?</p>
+                <div className="flex flex-row">
+                <div className="p-2">
+                    <CuteButton eventHandler={handleDeleteRecipe} buttonDisplayName="Delete"/></div>
+                <div className="p-2">
+                    <CuteButton eventHandler={goBack} buttonDisplayName="Cancel"/></div>
+                </div>
+            </div>
         </div>
     )
 }

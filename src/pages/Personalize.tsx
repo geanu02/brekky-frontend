@@ -76,6 +76,21 @@ export default function Personalize() {
         return data
     }
 
+    async function handleCancel() {
+        const res = await fetch(`${base_api_url}/recipe/${useRecIdParam}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-access-token': `Bearer ${user.token || localStorage.getItem('token')?.replaceAll('"', "")}`
+            }
+        })
+        if (res.ok) {
+            const dataRes = await res.json() 
+            console.log(dataRes)
+            navigate('/myrecipes')
+        }
+    }
+
     useEffect(() => {
         (async () => {
             const res = await fetch(`${base_api_url}/get/${useRecIdParam}`, {
@@ -206,7 +221,8 @@ export default function Personalize() {
                         </div>
                     )}
                     </div>
-                    <CuteButton buttonDisplayName="Save Recipe" />
+                    <div className="p-2"><CuteButton buttonDisplayName="Save Recipe" /></div>
+                    <div className="p-2"><CuteButton eventHandler={handleCancel} buttonDisplayName="Cancel" /></div>
                 </form>
             </div>
         </>

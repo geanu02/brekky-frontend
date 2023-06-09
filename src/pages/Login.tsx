@@ -63,23 +63,25 @@ export default function Login() {
 
     return (
         <>
-            <div className="ml-16 mt-12 p-4 bg-gray-600">
-                <h2 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
+            <div className="grid place-items-center h-screen">
+                <div>
+                <h2 className="mb-8 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
                         Welcome back to&nbsp;
                         <span className="text-transparent bg-clip-text bg-gradient-to-r to-sky-200 from-sky-400">
                         Brekky
                         </span>
                         !
                 </h2>
-                <form onSubmit={handleLoginForm}>
-                    <label>Username:<br />
-                        <input type="text" ref={usernameField} />
-                    </label><br /><br />
-                    <label>Password:<br />
-                        <input type="password" ref={passwordField} />
-                    </label><br /><br />
-                    <CuteButton buttonDisplayName="Login" />
-                </form>
+                <form onSubmit={handleLoginForm} className="flex flex-row justify-center">
+
+                    <input type="text" placeholder="Username" ref={usernameField} 
+                    className="mr-3 mb-3 py-2 px-3 rounded-md text-lg text-gray-900 bg-gray-50 border border-gray-300 focus:ring-sky-500 focus:border-sky-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-sky-500 dark:focus:border-sky-500"/>
+                    
+                    <input type="password" placeholder="Password" ref={passwordField} 
+                    className="mr-3 mb-3 py-2 px-3 rounded-md text-lg text-gray-900 bg-gray-50 border border-gray-300 focus:ring-sky-500 focus:border-sky-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-sky-500 dark:focus:border-sky-500"/>
+                        
+                    <p><CuteButton buttonDisplayName="Login" /></p>
+                </form></div>
             </div>
         </>
     )
