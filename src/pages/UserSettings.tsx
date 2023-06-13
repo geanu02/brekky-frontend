@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom"
 const base_api_url = import.meta.env.VITE_APP_BASE_API
 
 interface Accountable {
-    email: string,
+    email?: string,
     first_name: string,
     last_name: string
 }
@@ -16,6 +16,7 @@ export default function UserSettings() {
 
     const { user, setUser } = useContext(BrekkyContext)
     const [ account, setAccount ] = useState<Accountable>()
+    const [ updatedNames, setUpdatedNames ] = useState<Accountable>()
     const navigate = useNavigate()
 
     const { register, handleSubmit } = useForm()
@@ -41,7 +42,6 @@ export default function UserSettings() {
     }, [])
 
     async function handleSaveAccount(data: any): Promise<SubmitHandler<Accountable>> {
-        console.log(data)
         const res = await fetch(`${base_api_url}/update-names`, {
             method: 'PUT',
             headers: {
@@ -52,9 +52,12 @@ export default function UserSettings() {
         })
         if (res.ok) {
             const dataRes = await res.json() 
-            console.log(dataRes)
+            setUpdatedNames({ 
+                first_name: dataRes['first_name'], 
+                last_name: dataRes['last_name'] 
+            })
+            setUser(prevState => ({ ...prevState, firstname: dataRes['first_name'] }))
         }
-        console.log(data)
         return data
     }
 
@@ -81,7 +84,7 @@ export default function UserSettings() {
                 })
             }
         }
-    }, [])
+    }, [user])
 
     return (
         <>
@@ -118,7 +121,16 @@ export default function UserSettings() {
                         <div className="flex justify-center"><CuteButton eventHandler={handleCancel} buttonDisplayName="Cancel" /></div>
                         <p className="mt-4 text-sm text-white italic">For now, users are only allowed to change their first and last names.</p>
                     </form>
+                    {
+                        updatedNames ? 
+                        <div className="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3 text-center mt-6" role="alert">
+                            <p className="font-bold">Success</p>
+                            <p className="text-sm">Changed name to {updatedNames.first_name}&nbsp;{updatedNames.last_name}.</p>
+                        </div> :
+                        ''
+                    }
                 </div>
+                
             </div>
         </>
     )
