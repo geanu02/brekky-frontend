@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { arrToObj } from "./RecipeView"
 import CuteButton from "../components/CuteButton"
+import Spinner from "../components/Spinner"
 
 const base_api_url = import.meta.env.VITE_APP_BASE_API
 
@@ -34,12 +35,14 @@ export default function Personalize() {
 
     const { user, setUser } = useContext(BrekkyContext)
     const [ userRecipe, setUserRecipe ] = useState<Personalizable>()
+    const [ loading, setLoading ] = useState<boolean>(false)
     const { useRecIdParam } = useParams()
     const navigate = useNavigate()
 
     const { register, handleSubmit } = useForm()
 
     async function handleSaveRecipe(data: any): Promise<SubmitHandler<RecipeContent>> {
+        setLoading(true)
         const ls_ingName: string[] = []
         const ls_ingMeas: string[] = []
         for (let k in data) {
@@ -69,7 +72,11 @@ export default function Personalize() {
         if (res.ok) {
             const dataRes = await res.json() 
             console.log(dataRes)
+            setLoading(false)
             navigate('/myrecipes')
+        }
+        else {
+            setLoading(false)
         }
         console.log(data)
         return data
@@ -92,6 +99,7 @@ export default function Personalize() {
 
     useEffect(() => {
         (async () => {
+            setLoading(true)
             const res = await fetch(`${base_api_url}/get/${useRecIdParam}`, {
                 method: 'GET',
                 headers: {
@@ -112,6 +120,7 @@ export default function Personalize() {
                     userRecipeTitle: data.recipe_title,
                     userRecipeContent: userRecipeData
                 })
+                setLoading(false)
             }
         })()
     }, [])
@@ -139,7 +148,9 @@ export default function Personalize() {
     },[user])
 
     return (
-        <>
+        <>  
+            { loading ? ( <Spinner /> ) :
+            (<>
             <div className="ml-16 mt-12 p-4 bg-gray-600">
                 {/* Personalize Title */}
                 <h2 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
@@ -221,6 +232,7 @@ export default function Personalize() {
                     <div className="p-2"><CuteButton eventHandler={handleCancel} buttonDisplayName="Cancel" /></div>
                 </form>
             </div>
+            </>)}
         </>
     )
 }

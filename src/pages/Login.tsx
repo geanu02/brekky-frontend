@@ -1,6 +1,7 @@
+import Spinner from "../components/Spinner"
 import CuteButton from "../components/CuteButton"
 import { BrekkyContext } from "../contexts/BrekkyProvider"
-import { useRef, useContext, useEffect } from "react"
+import { useRef, useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
 const base_api_url = import.meta.env.VITE_APP_BASE_API
@@ -10,10 +11,12 @@ export default function Login() {
     const usernameField = useRef<HTMLInputElement>(null)
     const passwordField = useRef<HTMLInputElement>(null)
     const { user, setUser } = useContext(BrekkyContext)
+    const [ loading, setLoading ] = useState<boolean>(false)
     const navigate = useNavigate()
 
     async function handleLoginForm(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
+        setLoading(true)
         // endpoint on brekky-backend flask-app: /verify-user
         const res = await fetch(`${base_api_url}/verify-user`, {
             method: 'POST',
@@ -33,6 +36,9 @@ export default function Login() {
                 firstname: data[0].first_name,
                 token: data[0].token
             })
+            setLoading(false)
+        } else {
+            setLoading(false)
         }
     }
 
@@ -62,7 +68,8 @@ export default function Login() {
 
     return (
         <>
-            <div className="h-screen flex flex-row justify-center items-center">
+            { loading ? ( <Spinner /> ) :
+            (<div className="h-screen flex flex-row justify-center items-center">
                 <div>
                 <h2 className="mb-8 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl
                 max-[450px]:ml-20 max-[450px]:break-normal">
@@ -85,6 +92,7 @@ export default function Login() {
                     <div><p><CuteButton buttonDisplayName="Login" /></p></div></div>
                 </form></div>
             </div>
+            )}
         </>
     )
 }

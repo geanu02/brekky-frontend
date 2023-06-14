@@ -1,3 +1,4 @@
+import Spinner from "../components/Spinner"
 import CuteButton from "../components/CuteButton"
 import { BrekkyContext } from "../contexts/BrekkyProvider"
 import { useContext, useEffect, useState } from "react"
@@ -38,11 +39,13 @@ export default function RecipeView() {
 
     const { user, setUser } = useContext(BrekkyContext)
     const [ recipe, setRecipe ] = useState<RecipeViewable>() 
+    const [ loading, setLoading ] = useState<boolean>(false)
     const { recIdParam } = useParams()
     const navigate = useNavigate()
 
     async function handleAdd(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault()
+        setLoading(true)
         // endpoint on brekky-backend flask-app: /add
         const res = await fetch(`${base_api_url}/add`, {
             method: 'POST',
@@ -61,12 +64,17 @@ export default function RecipeView() {
         if (res.ok) {
             const data = await res.json() 
             console.log(data)
+            setLoading(false)
             navigate(`/personalize/${data.userRecipeId}`)
+        } else {
+            setLoading(false)
         }
+
     }
 
     useEffect(() => {
         (async () => {
+            setLoading(true)
             const res = await fetch(`${base_meals_api_url}/lookup.php?i=${recIdParam}`)
             if (!res.ok) {
                 throw new Error("Failed to fetch")
@@ -90,6 +98,7 @@ export default function RecipeView() {
             meals.ingredients = arrToObj(listIng as [], listMea as [])
             console.log(meals)
             setRecipe(meals)
+            setLoading(false)
             if (user.token) {
                 meals.newRecipeTitle = `${user.firstname}'s ${meals.strMeal}`
             }
@@ -119,8 +128,9 @@ export default function RecipeView() {
     }, [user])
 
     return (
-        <>
-            
+        <>            
+        { loading ? (<Spinner />) :
+            (<>
             <div className="ml-16 mt-20 pb-1 bg-gray-900">
                 <h2 
                     className="text-center text-3xl p-5 font-extrabold text-gray-900 
@@ -165,8 +175,8 @@ export default function RecipeView() {
                         </div>
                     }
                 </div>
-            </div>
-            
+            </div></>)}
+
         </>
     )
 }

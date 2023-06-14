@@ -4,15 +4,17 @@ import { RiSearchLine } from "react-icons/ri"
 import { useForm, SubmitHandler } from "react-hook-form"
 import RecipeCard from "../components/RecipeCard"
 import { RecipeContent } from "./Personalize"
+import Spinner from "../components/Spinner"
 
 const base_meals_api_url = import.meta.env.VITE_BASE_MEAL_API_URL
 
 export default function Search() {
-
     const [ arrRecipes, setArrRecipes ] = useState<RecipeCardable[]>([])
+    const [ loading, setLoading ] = useState<boolean>(false)
     const { register, handleSubmit } = useForm()
 
     async function handleSearch(data: any): Promise<SubmitHandler<RecipeContent>> {
+        setLoading(true)
         const res = await fetch(`${base_meals_api_url}/search.php?s=${data.keyword}`)
         if (!res.ok) {
             throw new Error("Failed to fetch")
@@ -21,6 +23,7 @@ export default function Search() {
         const arrData: RecipeCardable[] = await apiData.meals
         console.log(arrData)
         setArrRecipes(arrData)
+        setLoading(false)
         return apiData
     }
 
@@ -42,19 +45,23 @@ export default function Search() {
                         </button>
                     </form>
                 </div>
-                <div className="flex flex-row flex-wrap justify-between items-start">
-                {   
-                    arrRecipes.map((item, index) => 
-                        <RecipeCard 
-                            key={`recipeCard${index}`}
-                            idMeal={item.idMeal}
-                            strMeal={item.strMeal}
-                            strMealThumb={item.strMealThumb}
-                            linkTo={`recipe`}
-                        />
-                    )
+                { loading ? (
+                    <Spinner />
+                ) : (
+                    <div className="flex flex-row flex-wrap justify-between items-start">
+                    {   
+                        arrRecipes.map((item, index) => 
+                            <RecipeCard 
+                                key={`recipeCard${index}`}
+                                idMeal={item.idMeal}
+                                strMeal={item.strMeal}
+                                strMealThumb={item.strMealThumb}
+                                linkTo={`recipe`}
+                            />
+                        )
+                    }
+                    </div>)
                 }
-                </div>
             </div>
         </>
     )

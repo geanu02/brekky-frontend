@@ -26,9 +26,11 @@ export default function MyRecipes() {
 
     const { user, setUser } = useContext(BrekkyContext)
     const [ userRecipes, setUserRecipes ] = useState<UserRec[]>([])
+    const [ loading, setLoading ] = useState<boolean>(false)
     
     useEffect(() => {
         (async () => {
+            setLoading(true)
             const res = await fetch(`${base_api_url}/getall/${user.username}`, {
                 method: 'GET',
                 headers: {
@@ -47,6 +49,7 @@ export default function MyRecipes() {
                 arr.push(k.recipe_user_content)
             }
             setUserRecipes(arr)
+            setLoading(false)
         })()
     },[])
 
@@ -81,17 +84,21 @@ export default function MyRecipes() {
                 </h2>
                 <div className="flex flex-row flex-wrap items-start">
                 {
-                    userRecipes.length > 0 ? (
-                    userRecipes.map((item, index) => 
-                        <RecipeCard 
-                            key={`userRecipeCard${index}`}
-                            idMeal={String(item.user_recipe_id)}
-                            strMeal={item.recipeName}
-                            strMealThumb={item.recipe_thumb}
-                            linkTo={`userRecipe`}
-                        />
-                    )) : (
-                        <Spinner />
+                    loading 
+                    ? (
+                       <Spinner />
+                    ) : (
+                        userRecipes.length === 0 
+                       ? (<div>No Recipes here.</div>)
+                       : (userRecipes.map((item, index) => 
+                            <RecipeCard 
+                                key={`userRecipeCard${index}`}
+                                idMeal={String(item.user_recipe_id)}
+                                strMeal={item.recipeName}
+                                strMealThumb={item.recipe_thumb}
+                                linkTo={`userRecipe`}
+                            />)
+                        )
                     )
                 }
                 </div>

@@ -14,9 +14,11 @@ const base_meals_api_url = import.meta.env.VITE_BASE_MEAL_API_URL
 export default function Home() {
 
     const [ arrRecipes, setArrRecipes ] = useState<RecipeCardable[]>([])
+    const [ loading, setLoading ] = useState<boolean>(false)
 
     useEffect(() => {
         (async () => {
+            setLoading(true)
             const res = await fetch(`${base_meals_api_url}/filter.php?c=Seafood`)
             if (!res.ok) {
                 throw new Error("Failed to fetch")
@@ -24,6 +26,7 @@ export default function Home() {
             const data = await res.json()
             const arrData: RecipeCardable[] = await data.meals
             setArrRecipes(arrData)
+            setLoading(false)
             console.log(arrData)
         })()
     },[])
@@ -39,8 +42,10 @@ export default function Home() {
                 </h2>
                 <div className="flex flex-row flex-wrap justify-between items-start ">
                 { 
-                    arrRecipes.length > 1 ? (
-                    arrRecipes.map((item, index) => 
+                    loading ? ( 
+                        <Spinner />
+                    ) : (
+                        arrRecipes.map((item, index) => 
                         <RecipeCard 
                             key={`recipeCard${index}`}
                             idMeal={item.idMeal}
@@ -48,8 +53,7 @@ export default function Home() {
                             strMealThumb={item.strMealThumb}
                             linkTo={`recipe`}
                         />
-                    )) : (
-                        <Spinner />
+                    )
                     )
                 }
                 </div>
