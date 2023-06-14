@@ -1,4 +1,5 @@
 import ImgLogo from '../assets/images/logo.png'
+import { Link } from 'react-router-dom'
 
 export default function Navbar() {
 
@@ -8,7 +9,9 @@ export default function Navbar() {
                         flex flex-row justify-center
                         bg-gray-800 text-white shadow-sm">
             <div>
-                <img src={logo} alt={`Brekky`} className="w-24"/>
+                <Link to='/'>
+                    <img src={logo} alt={`Brekky`} className="w-24"/>
+                </Link>
             </div>
         </nav>
     )
