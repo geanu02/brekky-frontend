@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react"
 import { Ingredients } from "./Personalize"
 import RecipeCard from "../components/RecipeCard"
 import Spinner from "../components/Spinner"
+import HeaderTitle from "../components/HeaderTitle"
 
 const base_api_url = import.meta.env.VITE_APP_BASE_API
 
@@ -77,11 +78,10 @@ export default function MyRecipes() {
     return (
         <>
             <div className="ml-16 mt-12 p-4 bg-gray-600">
-                <h2 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r to-sky-200 from-sky-400">
-                    {user.firstname}'s 
-                    </span>&nbsp;Recipes
-                </h2>
+                <HeaderTitle 
+                    unColoredText={`${user.firstname}'s `} 
+                    coloredText="Recipes"
+                />
                 <div className="flex flex-row flex-wrap items-start">
                 {
                     loading 

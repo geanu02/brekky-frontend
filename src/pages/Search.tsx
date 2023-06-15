@@ -5,6 +5,7 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import RecipeCard from "../components/RecipeCard"
 import { RecipeContent } from "./Personalize"
 import Spinner from "../components/Spinner"
+import HeaderTitle from "../components/HeaderTitle"
 
 const base_meals_api_url = import.meta.env.VITE_BASE_MEAL_API_URL
 
@@ -30,12 +31,7 @@ export default function Search() {
     return (
         <>
             <div className="ml-16 mt-12 p-4 bg-gray-600">
-                <h2 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
-                    Search&nbsp;
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r to-sky-200 from-sky-400">
-                    Recipes
-                    </span>
-                </h2>
+                <HeaderTitle unColoredText="Search&nbsp;" coloredText="Recipes" />
                 <div>
                     <form onSubmit={handleSubmit(handleSearch)} className="flex flex-row">
                         <input {...register('keyword')} 
