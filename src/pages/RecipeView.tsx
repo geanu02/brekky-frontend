@@ -3,6 +3,7 @@ import CuteButton from "../components/CuteButton"
 import { BrekkyContext } from "../contexts/BrekkyProvider"
 import { useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
+import HeaderTitle from "../components/HeaderTitle"
 
 export interface RecipeViewable {
     idMeal: string,
@@ -132,14 +133,15 @@ export default function RecipeView() {
         { loading ? (<Spinner />) :
             (<>
             <div className="ml-16 mt-20 pb-1 bg-gray-900">
-                <h2 
-                    className="text-center text-3xl p-5 font-extrabold text-gray-900 
-                                dark:text-white md:text-5xl lg:text-6xl">
-                    <span className="text-transparent bg-clip-text 
-                                    bg-gradient-to-r to-sky-200 from-sky-400">
-                        {recipe?.strMeal}
-                    </span>
-                </h2>
+            { 
+                recipe !== undefined ? 
+                <HeaderTitle 
+                    coloredText={recipe.strMeal} 
+                    h2Style="text-center text-3xl p-5 font-extrabold text-gray-900 
+                        dark:text-white md:text-5xl lg:text-6xl"
+                /> :
+                <></>
+            }
             </div>
             
             <div className="max-w-6xl font-display mx-auto p-4 bg-gray-600 flex flex-row max-[450px]:no-flex">
