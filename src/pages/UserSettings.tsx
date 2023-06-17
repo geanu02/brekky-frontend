@@ -3,6 +3,7 @@ import CuteButton from "../components/CuteButton"
 import { BrekkyContext } from "../contexts/BrekkyProvider"
 import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import HeaderTitle from "../components/HeaderTitle"
 
 const base_api_url = import.meta.env.VITE_APP_BASE_API
 
@@ -90,12 +91,7 @@ export default function UserSettings() {
         <>
             <div className="grid place-items-center h-screen">
                 <div>
-                    <h2 className="mb-8 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
-                        Account&nbsp;
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r to-sky-200 from-sky-400">
-                        Settings
-                        </span>
-                    </h2>
+                    <HeaderTitle unColoredText="Account " coloredText="Settings" />
                     <form onSubmit={handleSubmit(handleSaveAccount)} className="text-center">
                         <input {...register('email')} defaultValue={account?.email} type="email" placeholder="Email Address" 
                         className="mb-3 py-2 px-3 rounded-md text-lg text-gray-900 bg-gray-50 border border-gray-300 focus:ring-sky-500 focus:border-sky-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-sky-500 dark:focus:border-sky-500" disabled />
