@@ -121,7 +121,7 @@ export default function UserSettings() {
                         updatedNames ? 
                         <div className="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3 text-center mt-6" role="alert">
                             <p className="font-bold">Success</p>
-                            <p className="text-sm">Changed name to {updatedNames.first_name}&nbsp;{updatedNames.last_name}.</p>
+                            <p className="text-sm">Account Info changed.</p>
                         </div> :
                         ''
                     }
