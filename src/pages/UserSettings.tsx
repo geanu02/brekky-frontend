@@ -8,9 +8,10 @@ import HeaderTitle from "../components/HeaderTitle"
 const base_api_url = import.meta.env.VITE_APP_BASE_API
 
 interface Accountable {
-    email?: string,
-    first_name: string,
-    last_name: string
+    email?: string
+    username?: string
+    first_name?: string
+    last_name?: string
 }
 
 export default function UserSettings() {
@@ -24,15 +25,12 @@ export default function UserSettings() {
 
     useEffect(() => {
         (async () => {
-            const res = await fetch(`${base_api_url}/get-user`, {
-                method: 'POST',
+            const res = await fetch(`${base_api_url}/get-user/${user.username}`, {
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     'x-access-token': `Bearer ${user.token || localStorage.getItem('token')?.replaceAll('"', "")}`
-                },
-                body: JSON.stringify({
-                    "username": user.username
-                })
+                }
             })
             if (res.ok) {
                 const data: Accountable = await res.json()
@@ -43,7 +41,8 @@ export default function UserSettings() {
     }, [])
 
     async function handleSaveAccount(data: any): Promise<SubmitHandler<Accountable>> {
-        const res = await fetch(`${base_api_url}/update-names`, {
+        console.log(`react-form-hook-data: ${data}`)
+        const res = await fetch(`${base_api_url}/update-account`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -53,11 +52,14 @@ export default function UserSettings() {
         })
         if (res.ok) {
             const dataRes = await res.json() 
-            setUpdatedNames({ 
-                first_name: dataRes['first_name'], 
-                last_name: dataRes['last_name'] 
-            })
-            setUser(prevState => ({ ...prevState, firstname: dataRes['first_name'] }))
+            console.log(dataRes)
+            // setUpdatedNames({ 
+            //     first_name: dataRes['first_name'], 
+            //     last_name: dataRes['last_name'],
+            //     email: dataRes['email'],
+            //     username: dataRes['username']
+            // })
+            // setUser(prevState => ({ ...prevState, firstname: dataRes['first_name'] }))
         }
         return data
     }
