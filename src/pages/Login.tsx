@@ -1,21 +1,27 @@
 import Spinner from "../components/Spinner"
 import CuteButton from "../components/CuteButton"
 import { BrekkyContext } from "../contexts/BrekkyProvider"
-import { useRef, useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import HeaderTitle from "../components/HeaderTitle"
+import { SubmitHandler, useForm } from "react-hook-form"
 
 const base_api_url = import.meta.env.VITE_APP_BASE_API
 
+interface Accountable {
+    username: string,
+    password: string
+}
+
 export default function Login() {
 
-    const usernameField = useRef<HTMLInputElement>(null)
-    const passwordField = useRef<HTMLInputElement>(null)
     const { user, setUser } = useContext(BrekkyContext)
     const [ loading, setLoading ] = useState<boolean>(false)
     const navigate = useNavigate()
 
-    async function handleLoginForm(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault()
+    const { register, handleSubmit } = useForm()
+
+    async function handleLoginForm(data: any): Promise<SubmitHandler<Accountable>> {
         setLoading(true)
         // endpoint on brekky-backend flask-app: /verify-user
         const res = await fetch(`${base_api_url}/verify-user`, {
@@ -23,23 +29,21 @@ export default function Login() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                username: usernameField.current?.value,
-                password: passwordField.current?.value
-            })
+            body: JSON.stringify(data)
         })
         if (res.ok) {
-            const data = await res.json() 
+            const dataRes = await res.json() 
             setUser({
                 loggedIn: true, 
-                username: String(usernameField.current?.value), 
-                firstname: data[0].first_name,
-                token: data[0].token
+                username: dataRes[0].username, 
+                firstname: dataRes[0].first_name,
+                token: dataRes[0].token
             })
             setLoading(false)
         } else {
             setLoading(false)
         }
+        return data
     }
 
     useEffect(() => {
@@ -69,29 +73,24 @@ export default function Login() {
     return (
         <>
             { loading ? ( <Spinner /> ) :
-            (<div className="h-screen flex flex-row justify-center items-center">
-                <div>
-                <h2 className="mb-8 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl
-                max-[450px]:ml-20 max-[450px]:break-normal">
-                        Welcome back to&nbsp;
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r to-sky-200 from-sky-400">
-                        Brekky
-                        </span>
-                        !
-                </h2>
-                <form onSubmit={handleLoginForm} >
-                    <div className="flex wrap flex-row justify-center ">
-                        <div>
-                    <input type="text" placeholder="Username" ref={usernameField} 
-                    className="mr-3 mb-3 py-2 px-3 rounded-md text-lg text-gray-900 bg-gray-50 border border-gray-300 focus:ring-sky-500 focus:border-sky-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-sky-500 dark:focus:border-sky-500"/></div>
-                    
-                    
-                       <div><input type="password" placeholder="Password" ref={passwordField} 
-                    className="mr-3 mb-3 py-2 px-3 rounded-md text-lg text-gray-900 bg-gray-50 border border-gray-300 focus:ring-sky-500 focus:border-sky-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-sky-500 dark:focus:border-sky-500"/></div>
-                       
-                    <div><p><CuteButton buttonDisplayName="Login" /></p></div></div>
-                </form></div>
-            </div>
+            (
+                <div className="h-screen flex flex-row justify-center items-center">
+                    <div>
+                        <HeaderTitle unColoredText="Welcome back to " coloredText="Brekky" />
+                    <form onSubmit={handleSubmit(handleLoginForm)} >
+                        <div className="flex wrap flex-row justify-center ">
+                            <div>
+                                <input {...register('username')} type="text" placeholder="Username"
+                        className="mr-3 mb-3 py-2 px-3 rounded-md text-lg text-gray-900 bg-gray-50 border border-gray-300 focus:ring-sky-500 focus:border-sky-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-sky-500 dark:focus:border-sky-500"/></div>
+                        
+                        
+                        <div><input {...register('password')} type="password" placeholder="Password"
+                        className="mr-3 mb-3 py-2 px-3 rounded-md text-lg text-gray-900 bg-gray-50 border border-gray-300 focus:ring-sky-500 focus:border-sky-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-sky-500 dark:focus:border-sky-500"/></div>
+                        
+                        <div><p><CuteButton buttonDisplayName="Login" /></p></div>
+                        </div>
+                    </form></div>
+                </div>
             )}
         </>
     )
