@@ -54,7 +54,7 @@ export default function UserSettings() {
     }, [account])
 
     async function handleSaveAccount(data: any): Promise<SubmitHandler<Accountable>> {
-        console.log(`react-form-hook-data: ${data}`)
+        console.log(data)
         const res = await fetch(`${base_api_url}/update-account`, {
             method: 'PUT',
             headers: {
