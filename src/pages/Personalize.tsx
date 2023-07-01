@@ -40,7 +40,7 @@ export default function Personalize() {
     const { useRecIdParam } = useParams()
     const navigate = useNavigate()
 
-    const { register, handleSubmit } = useForm()
+    const { register, reset, handleSubmit } = useForm()
 
     async function handleSaveRecipe(data: any): Promise<SubmitHandler<RecipeContent>> {
         setLoading(true)
@@ -125,6 +125,10 @@ export default function Personalize() {
             }
         })()
     }, [])
+
+    useEffect(() => {
+        reset(userRecipe)
+    }, [userRecipe])
 
     useEffect(() => {
         if (user.token || localStorage.getItem('token')) {

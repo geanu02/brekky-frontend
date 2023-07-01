@@ -16,7 +16,7 @@ export default function UserRecipeEdit() {
     const { useRecIdParam } = useParams()
     const navigate = useNavigate()
 
-    const { register, handleSubmit } = useForm()
+    const { register, reset, handleSubmit } = useForm()
 
     async function handleSaveRecipe(data: any): Promise<SubmitHandler<UserRec>> {
         const ls_ingName: string[] = []
@@ -66,6 +66,10 @@ export default function UserRecipeEdit() {
             setUserRecipe(recipeContent)
         })()
     }, [])
+
+    useEffect(() => {
+        reset(userRecipe)
+    }, [userRecipe])
 
     useEffect(() => {
         if (user.token || localStorage.getItem('token')) {
