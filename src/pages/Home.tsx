@@ -20,7 +20,7 @@ export default function Home() {
     useEffect(() => {
         (async () => {
             setLoading(true)
-            const res = await fetch(`${base_meals_api_url}/filter.php?c=Seafood`)
+            const res = await fetch(`${base_meals_api_url}/filter.php?c=Chicken`)
             if (!res.ok) {
                 throw new Error("Failed to fetch")
             }
