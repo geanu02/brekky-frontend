@@ -12,6 +12,18 @@ export interface RecipeCardable {
 
 const base_meals_api_url = import.meta.env.VITE_BASE_MEAL_API_URL
 
+function keywordDay(): string {
+    let cate = "Seafood"
+    const foodList = ["Seafood", "Vegetarian", "Breakfast", "Vegetarian", "Starter", "Pasta", "Dessert"]
+    foodList.forEach((category, index) => {
+        // Check if the index of day value is equal to the returned value of getDay()
+        if (index == new Date().getDay()) {
+            cate = category
+        }
+    })
+    return cate
+}
+
 export default function Home() {
 
     const [ arrRecipes, setArrRecipes ] = useState<RecipeCardable[]>([])
@@ -20,7 +32,8 @@ export default function Home() {
     useEffect(() => {
         (async () => {
             setLoading(true)
-            const res = await fetch(`${base_meals_api_url}/filter.php?c=Chicken`)
+            console.log(`${base_meals_api_url}/filter.php?c=${keywordDay()}`)
+            const res = await fetch(`${base_meals_api_url}/filter.php?c=${keywordDay()}`)
             if (!res.ok) {
                 throw new Error("Failed to fetch")
             }
