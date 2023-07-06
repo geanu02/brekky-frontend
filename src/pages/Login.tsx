@@ -13,10 +13,17 @@ interface Accountable {
     password: string
 }
 
+interface ILoginResponse {
+    active: boolean,
+    success: boolean,
+    message: string
+}
+
 export default function Login() {
 
     const { user, setUser } = useContext(BrekkyContext)
     const [ loading, setLoading ] = useState<boolean>(false)
+    const [ loginResponse, setLoginResponse ] = useState<ILoginResponse>({active: false, success: false, message: ""})
     const navigate = useNavigate()
 
     const { register, handleSubmit } = useForm()
@@ -33,12 +40,20 @@ export default function Login() {
         })
         if (res.ok) {
             const dataRes = await res.json() 
-            setUser({
-                loggedIn: true, 
-                username: dataRes[0].username, 
-                firstname: dataRes[0].first_name,
-                token: dataRes[0].token
-            })
+            if (dataRes[0].success) {
+                setUser({
+                    loggedIn: true, 
+                    username: dataRes[0].username, 
+                    firstname: dataRes[0].first_name,
+                    token: dataRes[0].token
+                })
+            } else if (dataRes[0].success === false) {
+                setLoginResponse({
+                    active: true,
+                    success: false,
+                    message: dataRes[0].message
+                })
+            }
             setLoading(false)
         } else {
             setLoading(false)
@@ -89,7 +104,20 @@ export default function Login() {
                         
                         <div><p><CuteButton buttonDisplayName="Login" /></p></div>
                         </div>
-                    </form></div>
+                    </form>
+                    {
+                        loginResponse.active ? 
+                        <div className={loginResponse.success ?
+                                `bg-blue-100 border-blue-500 text-blue-700` :
+                                `bg-red-100 border-red-500 text-red-700`
+                                + "border-t border-b px-4 py-3 text-center mt-6"
+                            } role="alert">
+                            <p className="font-bold">{loginResponse.success ? "Success" : "Error"}</p>
+                            <p className="text-sm">{loginResponse.message}</p>
+                        </div> :
+                        ''
+                    }
+                    </div>
                 </div>
             )}
         </>
