@@ -38,6 +38,7 @@ export default function Login() {
             },
             body: JSON.stringify(data)
         })
+        
         if (res.ok) {
             const dataRes = await res.json() 
             if (dataRes[0].success) {
@@ -56,6 +57,7 @@ export default function Login() {
             }
             setLoading(false)
         } else {
+            console.log("res.ok = false")
             setLoading(false)
         }
         return data
@@ -87,8 +89,9 @@ export default function Login() {
 
     return (
         <>
-            { loading ? ( <Spinner /> ) :
-            (
+            { loading ? ( 
+                <Spinner /> 
+            ) : (
                 <div className="h-screen flex flex-row justify-center items-center">
                     <div>
                         <HeaderTitle unColoredText="Welcome back to " coloredText="Brekky" />
