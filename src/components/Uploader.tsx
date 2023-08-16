@@ -3,6 +3,8 @@ export default function Uploader() {
     
 
     return (
-        <div>Uploader</div>
+        <>
+            <input type="file" name="image" />
+        </>
     )
 }

@@ -6,6 +6,7 @@ import { arrToObj } from "./RecipeView"
 import CuteButton from "../components/CuteButton"
 import Spinner from "../components/Spinner"
 import HeaderTitle from "../components/HeaderTitle"
+import Uploader from "../components/Uploader"
 
 const base_api_url = import.meta.env.VITE_APP_BASE_API
 
@@ -222,6 +223,9 @@ export default function Personalize() {
                                 defaultValue={item.ingMeasure} />
                         </div>
                     )}
+                    </div>
+                    <div>
+                        <Uploader />
                     </div>
                     <div className="p-2"><CuteButton buttonDisplayName="Save Recipe" /></div>
                     <div className="p-2"><CuteButton eventHandler={handleCancel} buttonDisplayName="Cancel" /></div>
